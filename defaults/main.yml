@@ -1,0 +1,11 @@
+---
+# defaults file for newrelic
+
+newrelic_user: 'newrelic'
+newrelic_group: '{{ newrelic_user }}'
+newrelic_license_key: 'REPLACE_WITH_REAL_KEY'
+newrelic_init_system: 'upstart'
+newrelic_skip_notify: 'false'
+
+newrelic_sysmond: False
+newrelic_sysmond_loglevel: 'info'

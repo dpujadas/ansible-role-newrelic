@@ -1,0 +1,11 @@
+---
+- hosts: travis
+  connection: docker
+  remote_user: root
+  roles:
+    - {
+      role: ansible-role-newrelic,
+      newrelic_sysmond: True,
+      newrelic_init_system: 'runit',
+      newrelic_skip_notify: 'true'
+    }

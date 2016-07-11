@@ -1,0 +1,5 @@
+#!/bin/sh
+
+exec 2>&1
+exec \
+setuser {{ newrelic_user }} /usr/sbin/nrsysmond -F -c {{ newrelic_sysmond_conf_file }}

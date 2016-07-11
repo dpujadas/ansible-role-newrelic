@@ -1,0 +1,4 @@
+---
+# vars file for newrelic
+
+sysmond_service_name: 'newrelic-sysmond'

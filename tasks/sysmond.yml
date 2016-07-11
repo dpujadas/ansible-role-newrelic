@@ -1,0 +1,43 @@
+- name: Include the newrelic_sysmond variables
+  include_vars: 'sysmond.yml'
+
+- name: Prevent newrelic_sysmond to start on install
+  copy:
+    content: |-
+      #!/bin/sh
+      exit 101
+    dest: '/usr/sbin/policy-rc.d'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+  changed_when: False
+
+- name: Install the newrelic_sysmond package
+  apt:
+    name: 'newrelic-sysmond'
+    state: 'present'
+
+- name: Remove policy-rc.d
+  file:
+    name: '/usr/sbin/policy-rc.d'
+    state: 'absent'
+  changed_when: False
+
+- name: Configure newrelic_sysmond
+  template:
+    src: 'nrsysmond.cfg.j2'
+    dest: '{{ newrelic_sysmond_conf_file }}'
+    owner: '{{ newrelic_user }}'
+    group: '{{ newrelic_group }}'
+    mode: '0640'
+  notify: restart newrelic-sysmond
+
+- name: Ensure /run/newrelic dir exists
+  file:
+    path: '/run/newrelic'
+    state: 'directory'
+    owner: '{{ newrelic_user }}'
+    group: '{{ newrelic_group }}'
+    mode: '0755'
+
+- include: 'sysmond_{{ newrelic_init_system }}.yml'

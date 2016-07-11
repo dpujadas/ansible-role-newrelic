@@ -1,0 +1,24 @@
+---
+# tasks file for newrelic
+
+- name: Add newrelic apt key
+  apt_key:
+    url: 'https://download.newrelic.com/548C16BF.gpg'
+    state: 'present'
+  tags:
+    - newrelic
+
+- name: Add newrelic repos
+  apt_repository:
+    repo: 'deb http://apt.newrelic.com/debian/ newrelic non-free'
+    state: 'present'
+    update_cache: 'yes'
+  tags:
+    - newrelic
+
+- name: Install newrelic sysmond
+  include: sysmond.yml
+  when: newrelic_sysmond
+  tags:
+    - newrelic
+    - newrelic-sysmond
