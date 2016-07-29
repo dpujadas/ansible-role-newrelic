@@ -1,0 +1,46 @@
+- name: Include the newrelic_apm variables
+  include_vars: 'apm.yml'
+
+- name: Prevent newrelic-daemon to start on install
+  copy:
+    content: |-
+      #!/bin/sh
+      exit 101
+    dest: '/usr/sbin/policy-rc.d'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+  changed_when: False
+
+- name: Install the newrelic-daemon package
+  apt:
+    name: 'newrelic-daemon'
+    state: 'present'
+
+- name: Remove policy-rc.d
+  file:
+    name: '/usr/sbin/policy-rc.d'
+    state: 'absent'
+  changed_when: False
+
+- name: Ensure configuration file exists (newrelic daemon needs it, even empty)
+  file:
+    path: '{{ newrelic_apm_conf_file }}'
+    state: 'touch'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+
+- name: Configure newrelic daemon
+  ini_file:
+    dest: '{{ newrelic_apm_conf_file }}'
+    section: '{{ item.section }}'
+    option: '{{ item.option }}'
+    value: '{{ item.value }}'
+  with_items: '{{ newrelic_apm_options }}'
+  notify: restart newrelic
+
+- include: 'apm_{{ newrelic_init_system }}.yml'
+
+- name: Install {{ newrelic_apm }} agent
+  include: '{{ newrelic_apm }}.yml'

@@ -1,0 +1,5 @@
+#!/bin/sh
+
+exec 2>&1
+exec \
+/usr/bin/newrelic-daemon -f -c {{ newrelic_apm_conf_file }}

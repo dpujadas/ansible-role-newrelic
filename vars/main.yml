@@ -2,3 +2,4 @@
 # vars file for newrelic
 
 sysmond_service_name: 'newrelic-sysmond'
+apm_service_name: 'newrelic-daemon'

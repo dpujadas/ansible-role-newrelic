@@ -4,8 +4,15 @@
   remote_user: root
   roles:
     - {
+      role: php,
+      php_version: '5.6',
+      php_cli: True
+    }
+    - {
       role: ansible-role-newrelic,
       newrelic_sysmond: True,
       newrelic_init_system: 'runit',
-      newrelic_skip_notify: 'true'
+      newrelic_skip_notify: 'true',
+      newrelic_apm: 'php',
+      newrelic_php_mods_dir: '/etc/php/5.6/mods-available'
     }

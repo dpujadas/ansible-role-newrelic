@@ -1,7 +1,12 @@
 newrelic
 ========
 
-This role installs and configures [NewRelic](https://newrelic.com/) daemon and, optionally, sysmond and agents (currently only php).
+This role installs and configures [NewRelic](https://newrelic.com/) sysmond and agents (currently only php).
+
+Requirements
+------------
+
+You need a [PHP installation](https://github.com/dpujadas/ansible-role-php) when using php agent.
 
 Role Variables
 --------------
@@ -13,7 +18,11 @@ Role Variables
 - `newrelic_skip_notify`: Skip notify handler (useful when testing without license key) (default: 'false')
 - `newrelic_sysmond`:  Install NewRelic sysmond or not (default: False)
 - `newrelic_sysmond_loglevel`: Level of detail you want in the log file (default: 'info')
-- `newrelic_sysmond_hostname`: Sets the name of the host (Ex: 'docker-travis')
+- `newrelic_sysmond_hostname`: If defined, sets the name of the host (Ex: 'docker-travis')
+- `newrelic_apm`: NewRelic agent to install (Ex: 'php'). When set, role installs newrelic-daemon, too. (default: '')
+- `newrelic_apm_options`: List of directives for daemon config file (default: empty list)
+- `newrelic_php_options`: List of directives for php agent config file (default: empty list)
+- `newrelic_php_mods_dir`: Path to php modules config dir (Ex: '/etc/php/5.6/mods-available')
 
 Example Playbook
 ----------------
@@ -22,7 +31,9 @@ Example Playbook
       roles:
         - {
           role: newrelic,
-          newrelic_sysmond: True
+          newrelic_sysmond: True,
+          newrelic_apm: 'php',
+          newrelic_php_mods_dir: '/etc/php/5.6/mods-available'
         }
 
 License

@@ -22,3 +22,10 @@
   tags:
     - newrelic
     - newrelic-sysmond
+
+- name: Install newrelic APM
+  include: 'apm.yml'
+  when: newrelic_apm != ''
+  tags:
+    - newrelic
+    - newrelic-apm

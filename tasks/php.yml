@@ -1,0 +1,31 @@
+- name: Include the newrelic_php variables
+  include_vars: 'php.yml'
+
+- name: Install the newrelic_php packages
+  apt:
+    name: 'newrelic-php5'
+    state: 'present'
+  tags:
+    - newrelic-php
+
+# Default newrelic.ini file has no section at the beginning and ansible
+# fails when parsing it. As a workaround, we create the [extension] section
+- name: Create initial section
+  lineinfile:
+    dest: '{{ newrelic_php_conf_file }}'
+    insertbefore: 'BOF'
+    line: '[extension]'
+  notify: restart php
+  tags:
+    - newrelic-php
+
+- name: Configure newrelic_php agent
+  ini_file:
+    dest: '{{ newrelic_php_conf_file }}'
+    section: '{{ item.section }}'
+    option: '{{ item.option }}'
+    value: '{{ item.value }}'
+  with_items: '{{ newrelic_php_mandatory_options|union(newrelic_php_options) }}'
+  notify: restart php
+  tags:
+    - newrelic-php

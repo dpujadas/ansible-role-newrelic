@@ -9,3 +9,13 @@ newrelic_skip_notify: 'false'
 
 newrelic_sysmond: False
 newrelic_sysmond_loglevel: 'info'
+
+# Format for agent options (newrelic_apm_options, newrelic_php_options):
+#   - section : Section in ini file
+#     option  : Option name
+#     value   : Option value
+
+newrelic_apm: ''
+newrelic_apm_options: []
+
+newrelic_php_options: []
