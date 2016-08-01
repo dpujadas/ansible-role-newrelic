@@ -20,7 +20,7 @@ script:
   - ansible-playbook tests/test.yml -i tests/inventory
   # Check idempotence
   - >
-    ansible-playbook tests/test.yml -i tests/inventory | tee /tmp/output.txt
+    ansible-playbook tests/test.yml -i tests/inventory | tee /tmp/output.txt;
     grep -q 'changed=0.*failed=0' /tmp/output.txt
     && (echo 'Idempotence test: pass' && exit 0)
     || (echo 'Idempotence test: fail' && exit 1)
