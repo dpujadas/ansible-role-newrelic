@@ -20,8 +20,8 @@ script:
   - ansible-playbook tests/test.yml -i tests/inventory
   # Check idempotence
   - >
-    ansible-playbook tests/test.yml -i tests/inventory
-    | grep -q 'changed=0.*failed=0'
+    ansible-playbook tests/test.yml -i tests/inventory | tee /tmp/output.txt
+    grep -q 'changed=0.*failed=0' /tmp/output.txt
     && (echo 'Idempotence test: pass' && exit 0)
     || (echo 'Idempotence test: fail' && exit 1)
   # Cannot check if it's up and running, we should provide a valid license key
