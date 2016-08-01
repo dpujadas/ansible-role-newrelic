@@ -20,6 +20,11 @@
     state: 'absent'
   changed_when: False
 
+- name: Check if configuration file exists
+  stat:
+    path: '{{ newrelic_apm_conf_file }}'
+  register: newrelic_apm_conf_file_stat
+
 - name: Ensure configuration file exists (newrelic daemon needs it, even empty)
   file:
     path: '{{ newrelic_apm_conf_file }}'
@@ -27,6 +32,7 @@
     owner: 'root'
     group: 'root'
     mode: '0644'
+  when: newrelic_apm_conf_file_stat.stat.exists != True
 
 - name: Configure newrelic daemon
   ini_file:
