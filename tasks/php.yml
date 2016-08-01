@@ -1,6 +1,3 @@
-- name: Include the newrelic_php variables
-  include_vars: 'php.yml'
-
 - name: Install the newrelic_php packages
   apt:
     name: 'newrelic-php5'

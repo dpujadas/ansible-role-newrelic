@@ -1,4 +1,0 @@
-newrelic_sysmond_conf_file: '/etc/newrelic/nrsysmond.cfg'
-newrelic_sysmond_mandatory_options:
-  - option: 'license_key'
-    value: '{{ newrelic_license_key }}'

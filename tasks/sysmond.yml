@@ -1,6 +1,3 @@
-- name: Include the newrelic_sysmond variables
-  include_vars: 'sysmond.yml'
-
 - name: Prevent newrelic_sysmond to start on install
   copy:
     content: |-

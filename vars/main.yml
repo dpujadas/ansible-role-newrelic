@@ -3,3 +3,19 @@
 
 sysmond_service_name: 'newrelic-sysmond'
 apm_service_name: 'newrelic-daemon'
+
+# sysmond
+newrelic_sysmond_conf_file: '/etc/newrelic/nrsysmond.cfg'
+newrelic_sysmond_mandatory_options:
+  - option: 'license_key'
+    value: '{{ newrelic_license_key }}'
+
+# apm
+newrelic_apm_conf_file: '/etc/newrelic/newrelic.cfg'
+
+# apm php
+newrelic_php_mandatory_options:
+  - section: 'newrelic'
+    option: 'newrelic.license'
+    value: '{{ newrelic_license_key }}'
+newrelic_php_conf_file: '{{ newrelic_php_mods_dir }}/newrelic.ini'
