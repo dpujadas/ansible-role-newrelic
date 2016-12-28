@@ -12,6 +12,11 @@
     name: '{{ sysmond_service_name }}'
     state: 'restarted'
 
+- name: restart {{ sysmond_service_name }} systemd
+  service:
+    name: '{{ sysmond_service_name }}'
+    state: 'restarted'
+
 - name: restart {{ sysmond_service_name }} runit
   shell: >
     /bin/{{ newrelic_skip_notify }} || (sleep 5 && sv restart {{ sysmond_service_name }})
@@ -22,6 +27,11 @@
   notify: 'reload {{ sysmond_service_name }} {{ newrelic_init_system }}'
 
 - name: reload {{ sysmond_service_name }} upstart
+  service:
+    name: '{{ sysmond_service_name }}'
+    state: 'reloaded'
+
+- name: reload {{ sysmond_service_name }} systemd
   service:
     name: '{{ sysmond_service_name }}'
     state: 'reloaded'
@@ -41,6 +51,11 @@
     name: '{{ apm_service_name }}'
     state: 'restarted'
 
+- name: restart {{ apm_service_name }} systemd
+  systemd:
+    name: '{{ apm_service_name }}'
+    state: 'restarted'
+
 - name: restart {{ apm_service_name }} runit
   shell: >
     sleep 5 && sv restart {{ apm_service_name }}
@@ -52,6 +67,11 @@
 
 - name: reload {{ apm_service_name }} upstart
   service:
+    name: '{{ apm_service_name }}'
+    state: 'reloaded'
+
+- name: reload {{ apm_service_name }} systemd
+  systemd:
     name: '{{ apm_service_name }}'
     state: 'reloaded'
 
