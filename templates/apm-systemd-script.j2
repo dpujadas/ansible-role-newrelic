@@ -1,0 +1,12 @@
+[Unit]
+Description=NewRelic Proxy Daemon
+After=network.target
+
+[Service]
+Type=forking
+Restart=on-failure
+PIDFile=/run/{{ apm_service_name }}.pid
+ExecStart=/usr/bin/{{ apm_service_name }} -c {{ newrelic_apm_conf_file }} -p /run/{{ apm_service_name }}.pid
+
+[Install]
+WantedBy=multi-user.target

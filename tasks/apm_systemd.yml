@@ -1,0 +1,16 @@
+- name: Ensure init.d script doesn't exist
+  file:
+    name: '/etc/init.d/{{ apm_service_name }}'
+    state: 'absent'
+
+- name: Create systemd script
+  template:
+    src: 'apm-systemd-script.j2'
+    dest: '/lib/systemd/system/{{ apm_service_name }}.service'
+    mode: '0644'
+
+- name: Ensure newrelic-daemon is started and enabled at boot
+  systemd:
+    name: '{{ apm_service_name }}'
+    state: 'started'
+    enabled: 'yes'
